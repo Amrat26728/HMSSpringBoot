@@ -34,7 +34,7 @@ public class Patient {
     @Column(unique = true)
     private String email;
 
-    @ToString.Exclude
+//    @ToString.Exclude
     private LocalDate dateOfBirth;
 
     private String gender;
