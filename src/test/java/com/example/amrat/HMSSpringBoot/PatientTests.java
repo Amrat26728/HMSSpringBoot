@@ -27,8 +27,17 @@ public class PatientTests {
 
     @Test
     public void testPatientRepository(){
-        List<Patient> patientList = patientRepository.findAll();
-        System.out.println(patientList);
+        // for each patient it will get appointments also
+        // so there are 5 patients and for each patient one extra query will execute to get appointments of that patient
+        // this is called N+1 problem
+        // solution: don't get appoints while fetching patient for that set FetchType.Lazy
+        // in case you are returning JSON then add decorator @Json.Ignore
+//        List<Patient> patientList = patientRepository.findAll();
+
+        List<Patient> patientList = patientRepository.findAllPatientWithAppointments();
+        for(Patient p: patientList){
+            System.out.println(p);
+        }
     }
 
     @Test
@@ -58,7 +67,7 @@ public class PatientTests {
 //            System.out.println(bloodGroupCountResponse);
 //        }
 
-        // Pagination
+        ////// Pagination
 //        Page<Patient> patients = patientRepository.findAllPatients(PageRequest.of(1, 2));
         /////// first it will sort by name and then get data from sorted.
         Page<Patient> patients = patientRepository.findAllPatients(PageRequest.of(1, 2, Sort.by("name")));
